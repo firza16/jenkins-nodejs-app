@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -5,23 +6,26 @@ pipeline {
         nodejs 'NodeJS-22'
     }
 
+    options {
+        skipDefaultCheckout true
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Source code is ready!'
-            }
-        }
-
-        stage('Environment Check') {
-            steps {
-                sh 'node --version'
-                sh 'npm --version'
+                checkout scm
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
             }
         }
     }

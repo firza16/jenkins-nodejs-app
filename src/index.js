@@ -2,7 +2,6 @@
 const express = require("express");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 app.get("/", (req, res) => {
   res.json({
@@ -17,6 +16,12 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
